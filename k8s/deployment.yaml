@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 018134828981.dkr.ecr.us-west-2.amazonaws.com/dev/loginapp:$BUILD_NUMBER
+          image: 018134828981.dkr.ecr.us-west-2.amazonaws.com/dev/loginapp
           ports:
             - containerPort: 8080
 ---
