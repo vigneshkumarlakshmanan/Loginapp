@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-java-deployment
+  name: Loginapp
   labels:
-    app: my-java-app
+    app: loginapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-java-app
+      app: loginapp
   template:
     metadata:
       labels:
-        app: my-java-app
+        app: loginapp
     spec:
       containers:
-        - name: my-java-container
-          image: 018134828981.dkr.ecr.us-west-2.amazonaws.com/my-java-app:v1.0
+        - name: frontend
+          image: 018134828981.dkr.ecr.us-west-2.amazonaws.com/dev/loginapp:$BUILD_NUMBER
           ports:
             - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-java-service
+  name: Loginapp
 spec:
   type: LoadBalancer
   selector:
-    app: my-java-app
+    app: login
   ports:
     - port: 80
       targetPort: 8080
