@@ -1,14 +1,14 @@
-# Use Tomcat as base image
-FROM tomcat:9.0-jdk17-openjdk
+# Use the latest official Tomcat image (includes JDK)
+FROM tomcat:latest
 
-# Remove default apps
+# Remove default apps (like examples, docs, ROOT)
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy your WAR into Tomcat webapps folder
+# Copy your WAR into Tomcat webapps folder as ROOT
 COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-# Expose port
+# Expose port 8080
 EXPOSE 8080
 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+# Set entrypoint to run Tomcat
+ENTRYPOINT ["catalina.sh", "run"]
