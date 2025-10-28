@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/yourusername/your-repo.git'   // 🔹 Replace with your repo URL
-        BRANCH   = 'main'                                            // 🔹 Branch name
-        MAVEN_HOME = tool name: 'Maven', type: 'maven'               // Jenkins tool configuration
-        DEPLOY_SERVER = 'ec2-user@10.0.1.50'                         // 🔹 Replace with your test server IP
-        DEPLOY_PATH = '/var/www/html/testapp'                        // 🔹 Deployment directory on remote
+        GIT_REPO = 'https://github.com/vigneshkumarlakshmanan/Loginapp.git'
+        BRANCH   = 'master'                                           
+        MAVEN_HOME = tool name: 'Maven', type: 'maven'               
+        DEPLOY_SERVER = 'ubuntu@52.56.242.236'                         
+        DEPLOY_PATH = '/opt/tomcat/webapps'                       
     }
 
     stages {
@@ -39,11 +39,12 @@ pipeline {
 
         stage('Deploy to Test Server') {
             steps {
+                agent { label 'test-server' }  // Use the SSH agent node
                 echo 'Deploying application to test server...'
-                // 🔹 Ensure Jenkins has SSH key access to the remote server
+               
                 sh '''
                 scp -o StrictHostKeyChecking=no target/*.jar ${DEPLOY_SERVER}:${DEPLOY_PATH}/
-                ssh -o StrictHostKeyChecking=no ${DEPLOY_SERVER} 'sudo systemctl restart testapp'
+                ssh -o StrictHostKeyChecking=no ${DEPLOY_SERVER} 'sudo systemctl restart tomcat'
                 '''
             }
         }
