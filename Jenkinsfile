@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/vigneshkumarlakshmanan/Loginapp.git'
-        BRANCH   = 'master'                                           
-        MAVEN_HOME = tool name: 'Maven', type: 'maven'               
+               
         DEPLOY_SERVER = 'ubuntu@52.56.242.236'                         
         DEPLOY_PATH = '/opt/tomcat/webapps'                       
     }
@@ -14,7 +12,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Pulling source code from GitHub...'
-                git branch: "${BRANCH}", url: "${GIT_REPO}"
+                git branch: 'master'  , url: 'https://github.com/vigneshkumarlakshmanan/Loginapp.git'
             }
         }
 
