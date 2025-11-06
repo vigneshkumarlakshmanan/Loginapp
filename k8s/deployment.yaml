@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 018134828981.dkr.ecr.us-west-2.amazonaws.com/dev/loginapp
+          image: 
           ports:
             - containerPort: 8080
 ---
@@ -27,7 +27,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: loginapp   # ✅ Fixed to match Deployment label
+    app: loginapp
   ports:
     - port: 80
       targetPort: 8080
