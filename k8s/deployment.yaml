@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: vigneshkumarlakshmanan/flask-login-app:v1
+          image: vigneshkumar56/login-app:v1
           ports:
             - containerPort: 8080
 ---
