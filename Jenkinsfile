@@ -21,6 +21,8 @@ pipeline {
             steps {
                 sh """
                     docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker login -u $DOCKER_HUB_USER
+                    docker push docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
                 """
             }
         }
