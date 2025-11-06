@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB = credentials('1003')   // Jenkins credentials (username/password)
         DOCKER_HUB_USER = 'vigneshkumar56'
         IMAGE_NAME = 'login-app'
     }
