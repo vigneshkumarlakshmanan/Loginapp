@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -Dmaven.repo.local=/home/ubuntu/.m2/repository'
             }
         }
     }
