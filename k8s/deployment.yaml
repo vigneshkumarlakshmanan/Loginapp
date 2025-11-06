@@ -25,12 +25,10 @@ kind: Service
 metadata:
   name: loginapp
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: loginapp
   ports:
     - port: 80
       targetPort: 8080
-
-
-
+      nodePort: 30080  # You can choose any port between 30000–32767
