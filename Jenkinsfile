@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        DOCKER_HUB= credentials('docker-hub-cred')
         DOCKER_HUB_USER = 'vigneshkumar56'
         IMAGE_NAME = 'login-app'
     }
