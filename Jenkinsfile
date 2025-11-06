@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh """
                     docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
-                    docker login -u $DOCKER_HUB_USER
+                    echo "${DOCKER_HUB_PSW}" | docker login -u "${DOCKER_HUB_USR}" --password-stdin
                     docker push docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
                 """
             }
