@@ -1,6 +1,7 @@
 pipeline {
     agent any
-       environment {
+    environment {
+        DOCKER_HUB = credentials('docker-hub-cred')   // Jenkins credentials (username/password)
         DOCKER_HUB_USER = 'vigneshkumar56'
         IMAGE_NAME = 'login-app'
     }
@@ -10,25 +11,33 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/vigneshkumarlakshmanan/Loginapp.git'
             }
         }
+
         stage('Build') {
             steps {
                 sh 'mvn clean package -Dmaven.repo.local=/tmp/.m2/repository'
             }
         }
-                stage('Build Docker Image') {
+
+        stage('Build & Push Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:${BUILD_NUMBER} .'
+                sh """
+                    docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
+                    echo "${DOCKER_HUB_PSW}" | docker login -u "${DOCKER_HUB_USR}" --password-stdin
+                    docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker logout
+                """
             }
         }
-        
-          stage('Deploy to Kubernetes') {
+
+        stage('Deploy to Kubernetes') {
             steps {
-                sh '''
+                sh """
                     export KUBECONFIG=/var/lib/jenkins/.kube/config
-                    sed -i "s|vigneshkumar56/login-app:v1|$DOCKER_HUB_USER/$IMAGE_NAME:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                    sed -i "s|${DOCKER_HUB_USER}/${IMAGE_NAME}:v1|${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
                     kubectl apply -f k8s/deployment.yaml
-                '''
+                """
             }
+        }
     }
 }
-}
+
