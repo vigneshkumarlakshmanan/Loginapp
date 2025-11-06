@@ -23,6 +23,7 @@ pipeline {
           stage('Deploy to Kubernetes') {
             steps {
                 sh '''
+                    export KUBECONFIG=/var/lib/jenkins/.kube/config
                     sed -i "s|vigneshkumarlakshmanan/flask-login-app:v1|$DOCKER_HUB_USER/$IMAGE_NAME:${BUILD_NUMBER}|g" k8s/deployment.yaml
                     kubectl apply -f k8s/deployment.yaml
                 '''
