@@ -20,11 +20,17 @@ pipeline {
 
         stage('Build & Push Docker Image') {
             steps {
-                sh """
-                    docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
-                    echo "${DOCKER_HUB_PSW}" | docker login -u "${DOCKER_HUB_USR}" --password-stdin
-                    docker push docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
-                """
+withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PSW')]) {
+    sh """
+        export DOCKER_CONFIG=\$(pwd)/.docker
+        mkdir -p \$DOCKER_CONFIG
+        docker build -t \$DOCKER_USER/login-app:${BUILD_NUMBER} .
+        echo "\$DOCKER_PSW" | docker login -u "\$DOCKER_USER" --password-stdin
+        docker push \$DOCKER_USER/login-app:${BUILD_NUMBER}
+        docker logout
+    """
+}
+
             }
         }
 
