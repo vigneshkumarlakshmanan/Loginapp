@@ -6,7 +6,7 @@ import jakarta.servlet.http.*;
 import java.sql.*;
 
 public class LoginServlet extends HttpServlet {
-    private static final String DB_URL = "jdbc:mysql://10.0.0.146:3306/Loginapp";
+    private static final String DB_URL = "jdbc:mysql://10.0.0.237:3306/Loginapp";
     private static final String DB_USER = "tomcat";
     private static final String DB_PASSWORD = "Admin@123";
 
